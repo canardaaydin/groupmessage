@@ -84,7 +84,7 @@ func main() {
 
 		for _, cli := range clients{
 
-			args := &Args{txt, tcpAddr.IP.String()}
+			args := &Args{txt, ip}
 			resp := new(Response)
 			divCall := cli.Go("Delivery.MessagePost", args, resp, nil)
 			_ = <-divCall.Done // will be equal to divCall
