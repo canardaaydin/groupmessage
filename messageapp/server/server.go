@@ -23,10 +23,10 @@ func main() {
 	rpc.Register(delivery)
 	rpc.HandleHTTP()
 
-	ip := os.Args[1]
+	ip := os.Args[1] + ":1234"
 
-	tcpAddr, err := net.ResolveTCPAddr("tcp", ip+":"+"1234")
-	l, e := net.ListenTCP("tcp", tcpAddr)
+
+	l, e := net.Listen("tcp", "localhost:1234")
 
 	if e != nil {
 		log.Fatal("listen error:", e)
@@ -50,7 +50,7 @@ func main() {
 
 	for scanner.Scan() {
 
-		if scanner.Text() != tcpAddr.IP.String() {
+		if scanner.Text() != ip {
 			text = append(text, scanner.Text())
 		}
 	}
