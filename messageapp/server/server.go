@@ -74,7 +74,8 @@ func main() {
 
 		for _, ip := range text {
 
-			client, err := rpc.DialHTTP("tcp", ip)
+			fmt.Print(ip)
+			client, err := rpc.Dial("tcp", ip)
 			if err != nil {
 				log.Fatal("dialing:", err)
 			}
