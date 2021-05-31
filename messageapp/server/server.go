@@ -5,11 +5,9 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"net/http"
 	"net/rpc"
 	"os"
 	"strings"
-
 )
 
 
@@ -21,7 +19,6 @@ func main() {
 
 	delivery := new(Delivery)
 	rpc.Register(delivery)
-	rpc.HandleHTTP()
 
 	ip := os.Args[1] + ":1234"
 
@@ -31,7 +28,18 @@ func main() {
 	if e != nil {
 		log.Fatal("listen error:", e)
 	}
-	go http.Serve(l, nil)
+
+	// similar to server code
+	go func() {
+		for {
+			conn, err := l.Accept()
+			if err != nil {
+				continue
+			}
+			rpc.ServeConn(conn)
+		}
+	}()
+
 
 	//server end
 
